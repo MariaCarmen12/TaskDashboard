@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, Box, TextField, Button, Typography, MenuItem } from '@mui/material';
+import { Modal, MenuItem, useTheme } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { Task } from '../interfaces/taskTypes';
 import { editTask } from '../context/TaskContext';
+import { ModalContainer, Title, StyledTextField, ButtonContainer, SaveButton, CancelButton } from '../components/Styles/EditTaskModalStyles';
 
 interface EditTaskModalProps {
   task: Task | null;
@@ -15,6 +16,7 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({ task, open, onClose }) =>
   const [description, setDescription] = useState(task?.description || '');
   const [priority, setPriority] = useState(task?.priority || 'Medium');
   const dispatch = useDispatch();
+  const theme = useTheme();
 
   useEffect(() => {
     if (task) {
@@ -33,153 +35,63 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({ task, open, onClose }) =>
 
   return (
     <Modal open={open} onClose={onClose} aria-labelledby="edit-task-modal-title">
-      <Box
-        sx={{
-          padding: 4,
-          backgroundColor: 'white',
-          borderRadius: 2,
-          width: '90%',
-          maxWidth: 600,
-          margin: 'auto',
-          marginTop: '10vh',
-          boxShadow: 3,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }}
-      >
-        <Typography
-          id="edit-task-modal-title"
-          variant="h6"
-          component="h2"
-          sx={{
-            marginBottom: 2,
-            color: (theme) => theme.palette.text.primary,
-            fontWeight: 'bold',
-          }}
-        >
+      <ModalContainer theme={theme}>
+        <Title id="edit-task-modal-title" variant="h6"  theme={theme}>
           Edit Task
-        </Typography>
-        <TextField
+        </Title>
+        <StyledTextField
           label="Title"
           value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setTitle(e.target.value)}
           fullWidth
           margin="normal"
           variant="outlined"
-          sx={{
-            '& .MuiInputLabel-root': {
-              color: (theme) => theme.palette.text.secondary,
-            },
-            '& .MuiOutlinedInput-root': {
-              '& fieldset': {
-                borderColor: (theme) => theme.palette.text.secondary,
-              },
-              '&:hover fieldset': {
-                borderColor: (theme) => theme.palette.primary.main,
-              },
-              '&.Mui-focused fieldset': {
-                borderColor: (theme) => theme.palette.primary.main,
-              },
-            },
-          }}
+          theme={theme}
         />
-        <TextField
+        <StyledTextField
           label="Description"
           value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          onChange={(e: { target: { value: React.SetStateAction<string>; }; }) => setDescription(e.target.value)}
           fullWidth
           margin="normal"
           multiline
           rows={4}
           variant="outlined"
-          sx={{
-            '& .MuiInputLabel-root': {
-              color: (theme) => theme.palette.text.secondary,
-            },
-            '& .MuiOutlinedInput-root': {
-              '& fieldset': {
-                borderColor: (theme) => theme.palette.text.secondary,
-              },
-              '&:hover fieldset': {
-                borderColor: (theme) => theme.palette.primary.main,
-              },
-              '&.Mui-focused fieldset': {
-                borderColor: (theme) => theme.palette.primary.main,
-              },
-            },
-          }}
+          theme={theme}
         />
-        <TextField
+        <StyledTextField
           select
           label="Priority"
           value={priority}
-          onChange={(e) => setPriority(e.target.value as 'High' | 'Medium' | 'Low')}
+          onChange={(e: { target: { value: string; }; }) => setPriority(e.target.value as 'High' | 'Medium' | 'Low')}
           fullWidth
           margin="normal"
           variant="outlined"
-          sx={{
-            '& .MuiInputLabel-root': {
-              color: (theme) => theme.palette.text.secondary,
-            },
-            '& .MuiOutlinedInput-root': {
-              '& fieldset': {
-                borderColor: (theme) => theme.palette.text.secondary,
-              },
-              '&:hover fieldset': {
-                borderColor: (theme) => theme.palette.primary.main,
-              },
-              '&.Mui-focused fieldset': {
-                borderColor: (theme) => theme.palette.primary.main,
-              },
-            },
-          }}
+          theme={theme}
         >
           <MenuItem value="High">High</MenuItem>
           <MenuItem value="Medium">Medium</MenuItem>
           <MenuItem value="Low">Low</MenuItem>
-        </TextField>
-        <Box
-          sx={{
-            display: 'flex',
-            gap: 2,
-            marginTop: 2,
-            width: '100%',
-            justifyContent: 'flex-end',
-          }}
-        >
-          <Button
+        </StyledTextField>
+        <ButtonContainer theme={theme}>
+          <SaveButton
             variant="contained"
             color="primary"
             onClick={handleSave}
-            sx={{
-              flexGrow: 1,
-              maxWidth: 150,
-              backgroundColor: (theme) => theme.palette.primary.main,
-              '&:hover': {
-                backgroundColor: (theme) => theme.palette.primary.dark,
-              },
-            }}
+            theme={theme}
           >
             Save
-          </Button>
-          <Button
+          </SaveButton>
+          <CancelButton
             variant="outlined"
             color="secondary"
             onClick={onClose}
-            sx={{
-              flexGrow: 1,
-              maxWidth: 150,
-              '&:hover': {
-                borderColor: (theme) => theme.palette.secondary.main,
-                color: (theme) => theme.palette.secondary.main,
-              },
-            }}
+            theme={theme}
           >
             Cancel
-          </Button>
-        </Box>
-      </Box>
+          </CancelButton>
+        </ButtonContainer>
+      </ModalContainer>
     </Modal>
   );
 };

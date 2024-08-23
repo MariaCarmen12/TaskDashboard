@@ -1,46 +1,110 @@
-# Getting Started with Create React App
+# Task Management Dashboard
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
 
-## Available Scripts
+This project is a simple task management dashboard where users can add, edit, and delete tasks. The focus is on creating a user-friendly interface, managing state effectively, and leveraging TypeScript for type safety.
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+- **Responsive Dashboard Layout**: Designed using [Material-UI](https://mui.com/), with a clean and responsive interface.
+- **Task List**: Displays all tasks with details and options to manage them.
+- **Task Input Form**: Allows users to add new tasks with a title, description, and priority (High, Medium, Low).
+- **Task Details View**: Provides functionality to edit or delete existing tasks.
+- **Filter & Sort Options**: Users can filter tasks by priority and sort them by creation date.
+- **Task Management**: Includes creation, editing, and deletion of tasks, with functionality to mark tasks as completed.
+- **State Management**: Utilizes [Redux](https://redux.js.org/) to manage application state and persist data in local storage.
+- **TypeScript Typing**: Strongly typed components, props, and state for better code quality and safety.
+- **Testing**: Unit tests for components using [Jest](https://jestjs.io/) and [React Testing Library](https://testing-library.com/react).
+- **Accessibility**: Ensures accessibility with proper ARIA labels and keyboard navigation.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Bonus Features
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- **Drag-and-Drop Functionality**: Users can reorder tasks using drag-and-drop.
+- **Dark Mode Toggle**: Switch between light and dark themes.
+- **Mock API Integration**: Simulate fetching and saving tasks from a server.
 
-### `npm test`
+## Requirements
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### User Interface
 
-### `npm run build`
+- Design a responsive dashboard layout using CSS or a UI framework like Material-UI, Chakra UI, or Tailwind CSS.
+- Include the following components:
+  - **Task List**: A list displaying all tasks.
+  - **Task Input Form**: A form to add a new task with fields for the task title, description, and priority (e.g., High, Medium, Low).
+  - **Task Details View**: A view to edit or delete an existing task.
+  - **Filter & Sort Options**: Provide options to filter tasks by priority and sort them by creation date.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Task Management
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Implement task creation, editing, and deletion functionalities.
+- Allow users to mark tasks as completed.
+- Implement a confirmation dialog for deleting tasks.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### State Management
 
-### `npm run eject`
+- Use React’s Context API or a state management library like Redux or Zustand to manage the application’s state.
+- Persist the task list in local storage, so that tasks remain even after the page is refreshed.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+### TypeScript Typing
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Strongly type all components, props, and state using TypeScript.
+- Implement custom types/interfaces where necessary (e.g., Task type with title, description, priority, creation date, etc.).
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Testing
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- Write unit tests for at least one component using Jest and React Testing Library.
+- Ensure TypeScript types are covered in the tests.
 
-## Learn More
+### Accessibility
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Ensure that the application is accessible and follows best practices (e.g., proper use of ARIA labels, keyboard navigation).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Installation
+
+1. **Clone the Repository**
+
+   ```bash
+    git clone https://github.com/MariaCarmen12/TaskDashboard.git
+    cd TaskDashboard
+
+
+2. **Install Dependencies**
+    ```bash
+    npm install
+
+3. **Run the Application**
+    ```bash
+    npm start
+
+4. **Run Tests**
+    ```bash
+    npm test
+
+
+
+## Project Structure
+- src/: Contains the main source code.
+- components/: React components for the dashboard.
+- context/: Redux or Context API state management setup.
+- interfaces/: TypeScript interfaces and types.
+- styles/: Component styles and theme configurations.
+- tests/: Unit tests for the components.
+
+## Approach
+- User Interface: Implemented a responsive design with Material-UI, ensuring a clean and intuitive user experience.
+- State Management: Used Redux for state management and local storage to persist tasks.
+- TypeScript Typing: All components, props, and state are strongly typed to ensure type safety and reduce bugs.
+- Testing: Covered key components with unit tests to ensure reliability.
+- Accessibility: Followed best practices to make the application accessible.
+Trade-Offs
+- UI Framework Choice: Material-UI was chosen for its comprehensive component library and ease of use.
+- State Management: Opted for Redux due to its robust ecosystem and scalability for larger applications.
+
+## Running Locally
+Follow the installation steps above to set up the project locally. Ensure that you have Node.js installed.
+
+## Contribution
+Feel free to open issues or submit pull requests to improve the project. For any questions, contact carmelitaglez21@gmail.com.
+
+## License
+This project is licensed under the MIT License.
