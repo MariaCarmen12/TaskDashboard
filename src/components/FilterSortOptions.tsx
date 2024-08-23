@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import {  MenuItem,  Box } from '@mui/material';
-import { useDispatch } from 'react-redux';
-import { sortTasks, filterTasksByPriority } from '../context/TaskContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { sortTasks, filterTasksByPriority, addTask, editTask, RootState } from '../context/TaskContext';
 import { useTheme } from '@mui/material/styles';
+
 import { Container, FilterIcon, FilterTitle, StyledTextField } from './Styles/FilterSortOptionsStyles';
 
 const FilterSortOptions: React.FC = () => {
@@ -12,11 +13,15 @@ const FilterSortOptions: React.FC = () => {
   const [sortOption, setSortOption] = useState<'Date' | 'Priority'>('Date');
   const [filterOption, setFilterOption] = useState<'All' | 'High' | 'Medium' | 'Low'>('All');
 
+  const tasks = useSelector((state: RootState) => state.tasks.tasks); // Lista completa de tareas
+  const filteredTasks = useSelector((state: RootState) => state.tasks.filteredTasks); // Tareas filtradas
+  console.log("Se actualizaaan",tasks, filteredTasks)
+
   
   useEffect(() => {
     dispatch(filterTasksByPriority(filterOption));
     dispatch(sortTasks(sortOption));
-  }, [dispatch, filterOption, sortOption]);
+  }, [addTask || editTask]);
 
  
   const handleSortChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,3 +73,5 @@ const FilterSortOptions: React.FC = () => {
 };
 
 export default FilterSortOptions;
+
+

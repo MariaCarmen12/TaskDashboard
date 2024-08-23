@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../context/TaskContext';
+import { RootState, AppDispatch } from '../context/TaskContext';
 import { Box, Checkbox, IconButton, ListItemText, Typography, useTheme } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -15,8 +15,9 @@ import { TaskListContainer, TaskListTitle, TaskItem, TaskDetailsBox, TaskActions
 
 const TaskList: React.FC = () => {
   const theme = useTheme();
-  const tasks = useSelector((state: RootState) => state.tasks.filteredTasks);
-  const dispatch = useDispatch();
+  const tasks = useSelector((state: RootState) => state.tasks.tasks); 
+  const filteredTasks = useSelector((state: RootState) => state.tasks.filteredTasks); 
+  const dispatch: AppDispatch = useDispatch();
 
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -39,7 +40,7 @@ const TaskList: React.FC = () => {
   useEffect(() => {
     const savedTasks = localStorage.getItem('tasks');
     if (savedTasks) {
-      const parsedTasks = JSON.parse(savedTasks);
+      const parsedTasks: Task[] = JSON.parse(savedTasks);
       dispatch(reorderTasks(parsedTasks));
     }
   }, [dispatch]);
@@ -47,11 +48,16 @@ const TaskList: React.FC = () => {
   useEffect(() => {
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }, [tasks]);
+  
+  useEffect(() => {
+
+    localStorage.setItem('filteredTasks', JSON.stringify(filteredTasks));
+  }, [filteredTasks]);
 
   const handleOnDragEnd = (result: any) => {
     if (!result.destination) return;
 
-    const reorderedItems = Array.from(tasks);
+    const reorderedItems = Array.from(filteredTasks);
     const [movedItem] = reorderedItems.splice(result.source.index, 1);
     reorderedItems.splice(result.destination.index, 0, movedItem);
     dispatch(reorderTasks(reorderedItems));
@@ -68,7 +74,7 @@ const TaskList: React.FC = () => {
   };
 
   const confirmDelete = () => {
-    if (taskToDelete) {
+    if (taskToDelete !== null) {
       dispatch(deleteTask(taskToDelete.toString()));
       setDeleteDialogOpen(false);
       setTaskToDelete(null);
@@ -87,14 +93,14 @@ const TaskList: React.FC = () => {
           Task List
         </TaskListTitle>
 
-        {tasks.length === 0 ? (
+        {filteredTasks.length === 0 ? (
           <NoTasksMessage />
         ) : (
           <DragDropContext onDragEnd={handleOnDragEnd}>
             <Droppable droppableId="taskListDroppable">
               {(provided) => (
                 <Box {...provided.droppableProps} ref={provided.innerRef} sx={{ width: '100%' }}>
-                  {tasks.map((task, index) => (
+                  {filteredTasks.map((task, index) => (
                     <Draggable key={task.id} draggableId={task.id.toString()} index={index}>
                       {(provided, snapshot) => (
                         <TaskItem

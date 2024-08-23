@@ -1,88 +1,146 @@
-// TaskList.test.tsx
-
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import configureStore from 'redux-mock-store';
 import TaskList from '../components/TaskList';
-import '@testing-library/jest-dom';
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import { configureStore } from '@reduxjs/toolkit';
-import store from '../context/TaskContext';
+import { RootState } from '../context/TaskContext';
+import { ThemeProvider } from '@mui/material/styles';
+import { darkTheme, lightTheme } from '../theme';
 
 
-const mockStore = createStore(store, {
+const theme= lightTheme
+
+
+// Mock store setup
+const mockStore = configureStore([]);
+const initialState: RootState = {
   tasks: {
-    tasks: [
-      { id: 1, title: 'Test Task 1', description: 'Task description 1', priority: 'High', completed: false },
-      { id: 2, title: 'Test Task 2', description: 'Task description 2', priority: 'Medium', completed: false },
-    ],
-    filteredTasks: [
-      { id: 1, title: 'Test Task 1', description: 'Task description 1', priority: 'High', completed: false },
-      { id: 2, title: 'Test Task 2', description: 'Task description 2', priority: 'Medium', completed: false },
-    ],
-    aux: [],
+    tasks: [],
+    filteredTasks: [],
   },
+};
+let store:any;
+
+const mockTasks = [
+  {
+    id: '1',
+    title: 'Test Task 1',
+    description: 'Description 1',
+    priority: 'High',
+    completed: false,
+  },
+  {
+    id: '2',
+    title: 'Test Task 2',
+    description: 'Description 2',
+    priority: 'Medium',
+    completed: false,
+  },
+];
+
+beforeEach(() => {
+  store = mockStore({
+    ...initialState,
+    tasks: {
+      tasks: mockTasks,
+      filteredTasks: mockTasks,
+    },
+  });
 });
 
 describe('TaskList Component', () => {
-  it('should render correctly with tasks', () => {
+  it('renders TaskList with tasks', () => {
     render(
-      <Provider store={mockStore}>
-        <TaskList />
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <TaskList />
+        </ThemeProvider>
       </Provider>
     );
 
-    // Verificar que las tareas se renderizan correctamente
-    expect(screen.getByText(/Test Task 1/i)).toBeInTheDocument();
-    expect(screen.getByText(/Test Task 2/i)).toBeInTheDocument();
+    expect(screen.getByText('Test Task 1')).toBeInTheDocument();
+    expect(screen.getByText('Test Task 2')).toBeInTheDocument();
   });
 
-  it('should open edit modal on edit button click', async () => {
-    render(
-      <Provider store={mockStore}>
-        <TaskList />
-      </Provider>
-    );
-
-    // Simular clic en el botón de editar
-    fireEvent.click(screen.getAllByLabelText(/edit/i)[0]);
-    await waitFor(() => {
-      // Verificar si el modal de edición se abre correctamente
-      expect(screen.getByText(/Edit Task/i)).toBeInTheDocument();
+  it('shows NoTasksMessage when there are no tasks', () => {
+    store = mockStore({
+      ...initialState,
+      tasks: {
+        tasks: [],
+        filteredTasks: [],
+      },
     });
-  });
 
-  it('should open delete dialog on delete button click', async () => {
     render(
-      <Provider store={mockStore}>
-        <TaskList />
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <TaskList />
+        </ThemeProvider>
       </Provider>
     );
 
-    // Simular clic en el botón de eliminar
-    fireEvent.click(screen.getAllByLabelText(/delete/i)[0]);
-    await waitFor(() => {
-      // Verificar si el diálogo de confirmación se abre correctamente
-      expect(screen.getByText(/Confirm Delete/i)).toBeInTheDocument();
-    });
+    expect(screen.getByText('No tasks to display')).toBeInTheDocument(); // Assuming 'NoTasksMessage' has this text
   });
 
-  it('should handle drag and drop correctly', async () => {
-    // Aquí necesitarás implementar una simulación del comportamiento de drag and drop.
-    // Puede ser más complejo y requerir la integración de react-beautiful-dnd en el entorno de pruebas.
+  it('opens edit modal when edit button is clicked', () => {
     render(
-      <Provider store={mockStore}>
-        <DragDropContext onDragEnd={() => { }}>
-          <Droppable droppableId="taskListDroppable">
-            {(provided) => (
-              <TaskList />
-            )}
-          </Droppable>
-        </DragDropContext>
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <TaskList />
+        </ThemeProvider>
       </Provider>
     );
 
-    // Simular y verificar el comportamiento de arrastre y caída
+    fireEvent.click(screen.getAllByLabelText('edit')[0]);
+    expect(screen.getByText('Edit Task')).toBeInTheDocument(); // Assuming the EditTaskModal has this title
+  });
+
+  it('opens delete confirmation dialog when delete button is clicked', () => {
+    render(
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <TaskList />
+        </ThemeProvider>
+      </Provider>
+    );
+
+    fireEvent.click(screen.getAllByLabelText('delete')[0]);
+    expect(screen.getByText('Are you sure you want to delete this task?')).toBeInTheDocument(); // Assuming this text in ConfirmDeleteDialog
+  });
+
+  it('dispatches deleteTask action when delete is confirmed', () => {
+    render(
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <TaskList />
+        </ThemeProvider>
+      </Provider>
+    );
+
+    fireEvent.click(screen.getAllByLabelText('delete')[0]);
+    fireEvent.click(screen.getByText('Confirm')); // Assuming the confirm button has this text
+
+    const actions = store.getActions();
+    expect(actions[0].type).toEqual('tasks/deleteTask');
+  });
+
+  it('handles drag and drop reordering of tasks', () => {
+    render(
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <TaskList />
+        </ThemeProvider>
+      </Provider>
+    );
+
+    const taskItems = screen.getAllByRole('listitem');
+
+    // Simulate drag and drop
+    fireEvent.dragStart(taskItems[0]);
+    fireEvent.dragEnter(taskItems[1]);
+    fireEvent.drop(taskItems[1]);
+
+    const actions = store.getActions();
+    expect(actions[0].type).toEqual('tasks/reorderTasks');
   });
 });

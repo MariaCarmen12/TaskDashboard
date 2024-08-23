@@ -1,76 +1,108 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
 import { Provider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
-import RootState, { editTask } from '../context/TaskContext'; // Asegúrate de importar el slice correcto
-import EditTaskModal from '../components/EditTaskModal'; // Asegúrate de importar tu componente
+import configureStore from 'redux-mock-store';
+import EditTaskModal from '../components/EditTaskModal';
 import { Task } from '../interfaces/taskTypes';
+import { ThemeProvider } from '@mui/material/styles';
+import { lightTheme } from '../theme';
 
+
+const theme= lightTheme
+
+const mockStore = configureStore([]);
+
+const mockTask: Task = {
+  id: '1',
+  title: 'Test Task',
+  description: 'Test Description',
+  priority: 'Medium',
+  completed: false,
+  createdAt: new Date ('01-01-2024')
+};
+
+let store: any;
+let onCloseMock: jest.Mock;
+
+beforeEach(() => {
+  store = mockStore({});
+  onCloseMock = jest.fn();
+});
 
 describe('EditTaskModal Component', () => {
-  const task: Task = {
-    id: '1',
-    title: 'Sample Task',
-    description: 'Sample Description',
-    completed: false,
-    priority: 'Medium',
-    createdAt: new Date('2024-08-21'),
-  };
-
-  test('should render the modal when open', () => {
+  it('renders the modal with task data', () => {
     render(
-      <Provider store={RootState}>
-        <EditTaskModal task={task} open={true} onClose={() => {}} />
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <EditTaskModal task={mockTask} open={true} onClose={onCloseMock} />
+        </ThemeProvider>
       </Provider>
     );
 
-    expect(screen.getByLabelText('edit-task-modal-title')).toBeInTheDocument();
-    expect(screen.getByLabelText('Title')).toHaveValue('Sample Task');
-    expect(screen.getByLabelText('Description')).toHaveValue('Sample Description');
-    expect(screen.getByLabelText('Priority')).toHaveValue('Medium');
+    expect(screen.getByLabelText('Title')).toHaveValue(mockTask.title);
+    expect(screen.getByLabelText('Description')).toHaveValue(mockTask.description);
+    expect(screen.getByLabelText('Priority')).toHaveValue(mockTask.priority);
+    expect(screen.getByText('Save')).toBeInTheDocument();
+    expect(screen.getByText('Cancel')).toBeInTheDocument();
   });
 
-  test('should update task fields and call dispatch on save', async () => {
-    const mockDispatch = jest.fn();
-    jest.spyOn(React, 'useDispatch').mockReturnValue(mockDispatch);
-
+  it('calls onClose when cancel button is clicked', () => {
     render(
-      <Provider store={RootState}>
-        <EditTaskModal task={task} open={true} onClose={() => {}} />
-      </Provider>
-    );
-
-    fireEvent.change(screen.getByLabelText('Title'), { target: { value: 'Updated Task' } });
-    fireEvent.change(screen.getByLabelText('Description'), { target: { value: 'Updated Description' } });
-    fireEvent.change(screen.getByLabelText('Priority'), { target: { value: 'High' } });
-
-    fireEvent.click(screen.getByText('Save'));
-
-    await waitFor(() => {
-      expect(mockDispatch).toHaveBeenCalledWith(
-        editTask({
-          id: '1',
-          title: 'Updated Task',
-          description: 'Updated Description',
-          priority: 'High',
-          completed: false,
-          createdAt:  new Date('2024-08-21')
-        })
-      );
-    });
-  });
-
-  test('should call onClose when Cancel is clicked', () => {
-    const onClose = jest.fn();
-
-    render(
-      <Provider store={RootState}>
-        <EditTaskModal task={task} open={true} onClose={onClose} />
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <EditTaskModal task={mockTask} open={true} onClose={onCloseMock} />
+        </ThemeProvider>
       </Provider>
     );
 
     fireEvent.click(screen.getByText('Cancel'));
+    expect(onCloseMock).toHaveBeenCalled();
+  });
 
-    expect(onClose).toHaveBeenCalled();
+  it('dispatches editTask action with updated data when save button is clicked', () => {
+    render(
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <EditTaskModal task={mockTask} open={true} onClose={onCloseMock} />
+        </ThemeProvider>
+      </Provider>
+    );
+
+    const newTitle = 'Updated Task';
+    const newDescription = 'Updated Description';
+
+    fireEvent.change(screen.getByLabelText('Title'), { target: { value: newTitle } });
+    fireEvent.change(screen.getByLabelText('Description'), { target: { value: newDescription } });
+    fireEvent.change(screen.getByLabelText('Priority'), { target: { value: 'High' } });
+
+    fireEvent.click(screen.getByText('Save'));
+
+    const actions = store.getActions();
+    expect(actions[0].type).toBe('tasks/editTask');
+    expect(actions[0].payload).toEqual({
+      ...mockTask,
+      title: newTitle,
+      description: newDescription,
+      priority: 'High',
+    });
+
+    expect(onCloseMock).toHaveBeenCalled();
+  });
+
+  it('does not dispatch editTask action if no task is provided', () => {
+    render(
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <EditTaskModal task={null} open={true} onClose={onCloseMock} />
+        </ThemeProvider>
+      </Provider>
+    );
+
+    fireEvent.click(screen.getByText('Save'));
+
+    const actions = store.getActions();
+    expect(actions.length).toBe(0);
+    expect(onCloseMock).toHaveBeenCalled();
   });
 });
