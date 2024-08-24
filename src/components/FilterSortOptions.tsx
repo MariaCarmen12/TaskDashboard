@@ -16,8 +16,11 @@ const FilterSortOptions: React.FC = () => {
   
   useEffect(() => {
     dispatch(filterTasksByPriority(filterOption));
+  }, [filterOption, dispatch]);
+  
+  useEffect(() => {
     dispatch(sortTasks(sortOption));
-  }, [addTask, editTask, filterOption, sortOption, dispatch]);
+  }, [sortOption, dispatch]);
 
  
   const handleSortChange = (e: React.ChangeEvent<HTMLInputElement>) => {
