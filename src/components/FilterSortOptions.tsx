@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {  MenuItem,  Box } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import { sortTasks, filterTasksByPriority, addTask, editTask, RootState } from '../context/TaskContext';
+import { useDispatch } from 'react-redux';
+import { sortTasks, filterTasksByPriority, addTask, editTask } from '../context/TaskContext';
 import { useTheme } from '@mui/material/styles';
 
 import { Container, FilterIcon, FilterTitle, StyledTextField } from './Styles/FilterSortOptionsStyles';
@@ -13,14 +13,11 @@ const FilterSortOptions: React.FC = () => {
   const [sortOption, setSortOption] = useState<'Date' | 'Priority'>('Date');
   const [filterOption, setFilterOption] = useState<'All' | 'High' | 'Medium' | 'Low'>('All');
 
-  const tasks = useSelector((state: RootState) => state.tasks.tasks); // Lista completa de tareas
-  const filteredTasks = useSelector((state: RootState) => state.tasks.filteredTasks); // Tareas filtradas
-
   
   useEffect(() => {
     dispatch(filterTasksByPriority(filterOption));
     dispatch(sortTasks(sortOption));
-  }, [addTask || editTask]);
+  }, [addTask, editTask, filterOption, sortOption, dispatch]);
 
  
   const handleSortChange = (e: React.ChangeEvent<HTMLInputElement>) => {
