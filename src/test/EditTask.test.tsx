@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import EditTaskModal from '../components/EditTaskModal';
@@ -74,11 +74,12 @@ describe('EditTaskModal', () => {
       </Provider>
     );
 
-    const prioritySelect = getByLabelText('Priority') as HTMLSelectElement;
+    const filterSelect = screen.getAllByRole('combobox');
+    fireEvent.mouseDown(filterSelect[0]);
+    const listbox = screen.getAllByRole('option')
+    fireEvent.click(listbox[0]);
+    expect(filterSelect[0]).toHaveTextContent('High');
 
-    fireEvent.change(prioritySelect, { target: { value: 'High' } });
-
-    expect(prioritySelect.value).toBe('High');
   });
 
   it('dispatches editTask action on save', () => {

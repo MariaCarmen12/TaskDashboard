@@ -61,10 +61,14 @@ const taskSlice = createSlice({
       state.tasks = reorderedTasks;
       state.tasks = state.tasks.map(task => reorderedTasks.find(reorderedTask => reorderedTask.id === task.id) || task);
     },
+    cleanTask: (state) => {
+      state.filteredTasks = [];
+      state.tasks = [];
+    }
   },
 });
 
-export const { addTask, editTask, deleteTask, toggleComplete, sortTasks, filterTasksByPriority, reorderTasks } = taskSlice.actions;
+export const { addTask, editTask, deleteTask, toggleComplete, sortTasks, filterTasksByPriority, reorderTasks, cleanTask } = taskSlice.actions;
 
 const store = configureStore({
   reducer: {

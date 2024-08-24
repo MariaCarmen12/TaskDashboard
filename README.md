@@ -72,23 +72,27 @@ This project is a simple task management dashboard where users can add, edit, an
     ```bash
     npm install
 
-3. **Run the Application**
+3. **Run Tests**
+    ```bash
+    npm test
+
+4. **Run the Application**
     ```bash
     npm start
 
-4. **Run Tests**
-    ```bash
-    npm test
+
 
 
 
 ## Project Structure
 - src/: Contains the main source code.
-- components/: React components for the dashboard.
-- context/: Redux or Context API state management setup.
-- interfaces/: TypeScript interfaces and types.
-- styles/: Component styles and theme configurations.
-- tests/: Unit tests for the components.
+- components/: React components for the dashboard, including UI elements like forms, buttons, modals, and task lists.
+- Styles/: Component styles configurations, often using styled-components or CSS modules for styling.
+- context/: Redux or Context API state management setup, including slices, reducers, and actions to manage application state.
+- interfaces/: TypeScript interfaces and types, defining the structure of data used throughout the application.
+- pages/: Page-level components representing different views or routes in the application, such as the dashboard or specific task views.
+- services/: Utility functions or API services used for interacting with backend services or external APIs.
+- tests/: Unit tests for the components, ensuring the functionality and correctness of the code through automated testing.
 
 ## Approach
 - User Interface: Implemented a responsive design with Material-UI, ensuring a clean and intuitive user experience.

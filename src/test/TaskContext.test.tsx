@@ -7,6 +7,7 @@ import store, {
     filterTasksByPriority,
     reorderTasks,
     RootState,
+    cleanTask
    
   } from '../context/TaskContext';
   import { Task } from '../interfaces/taskTypes';
@@ -15,6 +16,8 @@ import store, {
     filteredTasks: Task[];
    
   }
+
+  
   describe('taskSlice', () => {
     const initialTask: Task = {
       id: '1',
@@ -68,6 +71,7 @@ import store, {
     });
   
     it('should handle sorting tasks by date', () => {
+      store.dispatch(cleanTask());
       const task1: Task = { ...initialTask, id: '1', createdAt: new Date() };
       const task2: Task = { ...initialTask, id: '2', createdAt: new Date(Date.now() - 86400000) }; // 1 day ago
   
@@ -81,6 +85,7 @@ import store, {
     });
   
     it('should handle sorting tasks by priority', () => {
+      store.dispatch(cleanTask());
       const task1: Task = { ...initialTask, id: '1', priority: 'High' };
       const task2: Task = { ...initialTask, id: '2', priority: 'Low' };
       const task3: Task = { ...initialTask, id: '3', priority: 'Medium' };
@@ -97,8 +102,9 @@ import store, {
     });
   
     it('should handle filtering tasks by priority', () => {
-      const task1: Task = { ...initialTask, id: '1', priority: 'High' };
-      const task2: Task = { ...initialTask, id: '2', priority: 'Low' };
+      store.dispatch(cleanTask());
+      const task1: Task = { ...initialTask, description: "task 1", id: '1', priority: 'High' };
+      const task2: Task = { ...initialTask, description: "task 2", id: '2', priority: 'Low' };
   
       store.dispatch(addTask(task1));
       store.dispatch(addTask(task2));

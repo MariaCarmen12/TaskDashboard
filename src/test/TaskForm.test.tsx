@@ -2,13 +2,55 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { ThemeProvider } from '@mui/material';
 import { lightTheme } from '../theme';
 import TaskForm from '../components/TaskForm';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+import { RootState } from '../context/TaskContext';
+
+// Mock store setup
+const mockStore = configureStore([]);
+const initialState: RootState = {
+  tasks: {
+    tasks: [],
+    filteredTasks: [],
+  },
+};
+let store:any;
+
+const mockTasks = [
+  {
+    id: '1',
+    title: 'Test Task 1',
+    description: 'Description 1',
+    priority: 'High',
+    completed: false,
+  },
+  {
+    id: '2',
+    title: 'Test Task 2',
+    description: 'Description 2',
+    priority: 'Medium',
+    completed: false,
+  },
+];
+
+beforeEach(() => {
+  store = mockStore({
+    ...initialState,
+    tasks: {
+      tasks: mockTasks,
+      filteredTasks: mockTasks,
+    },
+  });
+});
 
 // Renderiza el formulario y verifica si los elementos están presentes
 test('renders TaskForm component', () => {
   render(
-    <ThemeProvider theme={lightTheme}>
-      <TaskForm />
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={lightTheme}>
+        <TaskForm />
+      </ThemeProvider>
+    </Provider>
   );
   
   // Verifica que el título esté presente
@@ -24,9 +66,12 @@ test('renders TaskForm component', () => {
 // Verifica si el formulario maneja el cambio de valores correctamente
 test('handles input changes', () => {
   render(
-    <ThemeProvider theme={lightTheme}>
-      <TaskForm />
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={lightTheme}>
+        <TaskForm />
+      </ThemeProvider>
+    </Provider>
+    
   );
 
   fireEvent.change(screen.getByLabelText(/Task Title/i), { target: { value: 'New Task' } });

@@ -1,0 +1,146 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FilterSortOptions Component matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiBox-root css-gyf1yz"
+  >
+    <div
+      class="MuiBox-root css-70qvj9"
+    >
+      <svg
+        aria-hidden="true"
+        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-qucq6i-MuiSvgIcon-root"
+        data-testid="FilterListIcon"
+        focusable="false"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M10 18h4v-2h-4zM3 6v2h18V6zm3 7h12v-2H6z"
+        />
+      </svg>
+      <h6
+        class="MuiTypography-root MuiTypography-h6 css-1i2ud1d-MuiTypography-root"
+      >
+        Filters
+      </h6>
+    </div>
+    <div
+      class="MuiFormControl-root MuiTextField-root css-14q8ftn-MuiFormControl-root-MuiTextField-root"
+    >
+      <label
+        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined css-17dx2ji-MuiFormLabel-root-MuiInputLabel-root"
+        data-shrink="true"
+        for=":r4:"
+        id=":r4:-label"
+      >
+        Sort by
+      </label>
+      <div
+        class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-20gy86-MuiInputBase-root-MuiOutlinedInput-root"
+      >
+        <div
+          aria-controls=":r5:"
+          aria-expanded="false"
+          aria-haspopup="listbox"
+          aria-labelledby=":r4:-label :r4:"
+          class="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input css-10l5tdt-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
+          id=":r4:"
+          role="combobox"
+          tabindex="0"
+        >
+          Date
+        </div>
+        <input
+          aria-hidden="true"
+          aria-invalid="false"
+          class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+          tabindex="-1"
+          value="Date"
+        />
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-hfutr2-MuiSvgIcon-root-MuiSelect-icon"
+          data-testid="ArrowDropDownIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M7 10l5 5 5-5z"
+          />
+        </svg>
+        <fieldset
+          aria-hidden="true"
+          class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+        >
+          <legend
+            class="css-14lo706"
+          >
+            <span>
+              Sort by
+            </span>
+          </legend>
+        </fieldset>
+      </div>
+    </div>
+    <div
+      class="MuiFormControl-root MuiTextField-root css-14q8ftn-MuiFormControl-root-MuiTextField-root"
+    >
+      <label
+        class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiFormLabel-filled MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-sizeMedium MuiInputLabel-outlined css-17dx2ji-MuiFormLabel-root-MuiInputLabel-root"
+        data-shrink="true"
+        for=":r6:"
+        id=":r6:-label"
+      >
+        Filter by Priority
+      </label>
+      <div
+        class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-formControl css-20gy86-MuiInputBase-root-MuiOutlinedInput-root"
+      >
+        <div
+          aria-controls=":r7:"
+          aria-expanded="false"
+          aria-haspopup="listbox"
+          aria-labelledby=":r6:-label :r6:"
+          class="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input css-10l5tdt-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
+          id=":r6:"
+          role="combobox"
+          tabindex="0"
+        >
+          All
+        </div>
+        <input
+          aria-hidden="true"
+          aria-invalid="false"
+          class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+          tabindex="-1"
+          value="All"
+        />
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-hfutr2-MuiSvgIcon-root-MuiSelect-icon"
+          data-testid="ArrowDropDownIcon"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M7 10l5 5 5-5z"
+          />
+        </svg>
+        <fieldset
+          aria-hidden="true"
+          class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+        >
+          <legend
+            class="css-14lo706"
+          >
+            <span>
+              Filter by Priority
+            </span>
+          </legend>
+        </fieldset>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

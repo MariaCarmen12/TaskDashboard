@@ -79,7 +79,7 @@ describe('TaskList Component', () => {
       </Provider>
     );
 
-    expect(screen.getByText('No tasks to display')).toBeInTheDocument(); // Assuming 'NoTasksMessage' has this text
+    expect(screen.getByText('No tasks available')).toBeInTheDocument(); // Assuming 'NoTasksMessage' has this text
   });
 
   it('opens edit modal when edit button is clicked', () => {
@@ -105,7 +105,7 @@ describe('TaskList Component', () => {
     );
 
     fireEvent.click(screen.getAllByLabelText('delete')[0]);
-    expect(screen.getByText('Are you sure you want to delete this task?')).toBeInTheDocument(); // Assuming this text in ConfirmDeleteDialog
+    expect(screen.getByText('Are you sure you want to delete this task? This action cannot be undone.')).toBeInTheDocument(); // Assuming this text in ConfirmDeleteDialog
   });
 
   it('dispatches deleteTask action when delete is confirmed', () => {
@@ -118,10 +118,10 @@ describe('TaskList Component', () => {
     );
 
     fireEvent.click(screen.getAllByLabelText('delete')[0]);
-    fireEvent.click(screen.getByText('Confirm')); // Assuming the confirm button has this text
+    fireEvent.click(screen.getByText('Delete')); 
 
     const actions = store.getActions();
-    expect(actions[0].type).toEqual('tasks/deleteTask');
+    expect(actions[1].type).toEqual('tasks/deleteTask');
   });
 
   it('handles drag and drop reordering of tasks', () => {
@@ -133,7 +133,7 @@ describe('TaskList Component', () => {
       </Provider>
     );
 
-    const taskItems = screen.getAllByRole('listitem');
+    const taskItems = screen.getAllByRole('button');
 
     // Simulate drag and drop
     fireEvent.dragStart(taskItems[0]);
