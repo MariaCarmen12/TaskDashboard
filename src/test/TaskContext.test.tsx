@@ -6,7 +6,6 @@ import store, {
     sortTasks,
     filterTasksByPriority,
     reorderTasks,
-    RootState,
     cleanTask
    
   } from '../context/TaskContext';

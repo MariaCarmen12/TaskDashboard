@@ -1,10 +1,6 @@
-import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import store from '../context/TaskContext';
-import { ThemeProvider } from '@mui/material/styles';
-import { lightTheme, darkTheme } from '../theme';
-import { Header } from '../components/Header';
 import Dashboard from '../pages/Dashboard';
 
 // Mocking child components

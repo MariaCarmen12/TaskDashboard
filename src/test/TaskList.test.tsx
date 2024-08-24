@@ -5,7 +5,7 @@ import configureStore from 'redux-mock-store';
 import TaskList from '../components/TaskList';
 import { RootState } from '../context/TaskContext';
 import { ThemeProvider } from '@mui/material/styles';
-import { darkTheme, lightTheme } from '../theme';
+import { lightTheme } from '../theme';
 
 
 const theme= lightTheme

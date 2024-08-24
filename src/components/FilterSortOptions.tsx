@@ -15,7 +15,6 @@ const FilterSortOptions: React.FC = () => {
 
   const tasks = useSelector((state: RootState) => state.tasks.tasks); // Lista completa de tareas
   const filteredTasks = useSelector((state: RootState) => state.tasks.filteredTasks); // Tareas filtradas
-  console.log("Se actualizaaan",tasks, filteredTasks)
 
   
   useEffect(() => {
