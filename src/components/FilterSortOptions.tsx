@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {  MenuItem,  Box } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { sortTasks, filterTasksByPriority, addTask, editTask } from '../context/TaskContext';
+import { sortTasks, filterTasksByPriority} from '../context/TaskContext';
 import { useTheme } from '@mui/material/styles';
 
 import { Container, FilterIcon, FilterTitle, StyledTextField } from './Styles/FilterSortOptionsStyles';
@@ -17,7 +17,7 @@ const FilterSortOptions: React.FC = () => {
   useEffect(() => {
     dispatch(filterTasksByPriority(filterOption));
   }, [filterOption, dispatch]);
-  
+
   useEffect(() => {
     dispatch(sortTasks(sortOption));
   }, [sortOption, dispatch]);
